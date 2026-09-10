@@ -1,0 +1,472 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   DESIGN TOKENS — Border Radius
+   ============================================================ */
+:root {
+  --r-xl: 28px;
+  --r-lg: 22px;
+  --r-md: 16px;
+  --r-sm: 12px;
+  --r-xs: 9px;
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 9px;
+}
+
+/* ============================================================
+   LIGHT THEME
+   ============================================================ */
+[data-theme="light"] {
+  --bg: #efece4;
+  --bg-grad: radial-gradient(1100px 550px at 15% -10%, rgba(255,255,255,.9), transparent 60%),
+             radial-gradient(900px 500px at 100% 0%, rgba(201,162,39,.1), transparent 55%),
+             linear-gradient(180deg, #f4f1ea, #e9e5db);
+  --glass: rgba(255,255,255,.55);
+  --glass-strong: rgba(255,255,255,.82);
+  --glass-border: rgba(255,255,255,.75);
+  --glass-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 18px 40px rgba(120,105,80,.16);
+  --sheen: linear-gradient(115deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,.12) 30%, rgba(255,255,255,0) 55%);
+  --text: #23241f;
+  --muted: #75726a;
+  --gold: #b3872a;
+  --emerald: #0f6b4d;
+  --violet: #7a5a95;
+  --gold-soft: rgba(179,135,42,.14);
+  --emerald-soft: rgba(15,107,77,.13);
+  --violet-soft: rgba(122,90,149,.14);
+  --red: #b3423a;
+  --red-soft: rgba(179,66,58,.13);
+  --divider: rgba(35,36,31,.09);
+  --input-bg: rgba(255,255,255,.6);
+  --slot-hover: rgba(179,135,42,.1);
+  --danger-hover: rgba(179,66,58,.12);
+  --slot-bg: rgba(35,36,31,.035);
+}
+
+/* ============================================================
+   DARK THEME
+   ============================================================ */
+[data-theme="dark"] {
+  --bg: #1a1a1c;
+  --bg-grad: radial-gradient(1100px 550px at 15% -10%, rgba(255,255,255,.05), transparent 60%),
+             radial-gradient(900px 500px at 100% 10%, rgba(31,174,124,.07), transparent 55%),
+             linear-gradient(180deg, #1d1d20, #131315);
+  --glass: rgba(255,255,255,.055);
+  --glass-strong: rgba(255,255,255,.1);
+  --glass-border: rgba(255,255,255,.1);
+  --glass-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 20px 50px rgba(0,0,0,.55);
+  --sheen: linear-gradient(115deg, rgba(255,255,255,.09) 0%, rgba(255,255,255,.02) 30%, rgba(255,255,255,0) 55%);
+  --text: #eceef0;
+  --muted: #9497a1;
+  --gold: #e0b93f;
+  --emerald: #1fae7c;
+  --violet: #a07cc5;
+  --gold-soft: rgba(224,185,63,.15);
+  --emerald-soft: rgba(31,174,124,.15);
+  --violet-soft: rgba(160,124,197,.15);
+  --red: #e07a6f;
+  --red-soft: rgba(224,122,111,.15);
+  --divider: rgba(255,255,255,.08);
+  --input-bg: rgba(255,255,255,.05);
+  --slot-hover: rgba(224,185,63,.1);
+  --danger-hover: rgba(224,122,111,.12);
+  --slot-bg: rgba(255,255,255,.03);
+}
+
+/* ============================================================
+   FONT SIZE SCALING
+   ============================================================ */
+html[data-fontsize="small"] { zoom: 0.88; }
+html[data-fontsize="normal"] { /* default */ }
+html[data-fontsize="large"] { zoom: 1.15; }
+
+/* ============================================================
+   BASE RESET & GLOBALS
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  background-image: var(--bg-grad);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   GLASS MORPHISM
+   ============================================================ */
+.glass {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--sheen);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.confirm-btn,
+.save-btn {
+  background: linear-gradient(150deg, var(--gold), var(--emerald));
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.confirm-btn:hover,
+.save-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+.confirm-btn:active,
+.save-btn:active {
+  transform: scale(0.97);
+}
+
+.ghost-btn {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  border-radius: var(--r-sm);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.ghost-btn:hover {
+  background: var(--glass-strong);
+  transform: translateY(-1px);
+}
+
+.danger-btn {
+  background: transparent;
+  border: 1px solid var(--red-soft);
+  color: var(--red);
+  border-radius: var(--r-sm);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.danger-btn:hover {
+  background: var(--danger-hover);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.badge.paid {
+  color: var(--emerald);
+  background: var(--emerald-soft);
+}
+.badge.due {
+  color: var(--gold);
+  background: var(--gold-soft);
+}
+.badge.overdue {
+  color: var(--red);
+  background: var(--red-soft);
+}
+
+/* ============================================================
+   TOGGLE SWITCH
+   ============================================================ */
+.switch {
+  width: 42px;
+  height: 24px;
+  border-radius: 100px;
+  background: var(--divider);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.switch.on {
+  background: linear-gradient(150deg, var(--gold), var(--emerald));
+}
+.switch.on::after {
+  transform: translateX(18px);
+}
+
+/* ============================================================
+   SEGMENTED CONTROL
+   ============================================================ */
+.seg {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 100px;
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-border);
+}
+.seg button {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.seg button.active {
+  background: linear-gradient(150deg, var(--gold), var(--emerald));
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ============================================================
+   FAB (Floating Action Button)
+   ============================================================ */
+.fab {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-lg);
+  background: linear-gradient(150deg, var(--gold), var(--emerald));
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 10;
+}
+.fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   ICON BUTTON
+   ============================================================ */
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.icon-btn:hover {
+  color: var(--text);
+  background: var(--glass-strong);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   FORM INPUTS
+   ============================================================ */
+.input-field {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  background: var(--input-bg);
+  border: 1px solid var(--divider);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-field:focus {
+  border-color: var(--gold);
+}
+.input-field::placeholder {
+  color: var(--muted);
+}
+
+/* ============================================================
+   SHELL LAYOUT
+   ============================================================ */
+.shell {
+  display: flex;
+  height: 100%;
+  padding: 16px;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--divider);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   TOAST STACK
+   ============================================================ */
+.toast-stack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9000;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+}
+
+.toast {
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--glass-strong);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.toast:hover {
+  transform: translateX(-4px);
+}
+
+/* ============================================================
+   RESPONSIVE UTILITIES
+   ============================================================ */
+@media (max-width: 899px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 900px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
